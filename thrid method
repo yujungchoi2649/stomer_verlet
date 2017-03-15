@@ -1,0 +1,44 @@
+float F;
+float x;
+float dt = 0.05;
+int xb0 = 400;
+int xs0 = 800;
+
+//big one
+int mb = 20; //mass
+float vb; //velocity
+float vb0 = 0.0;
+
+
+//small one
+
+
+void setup(){
+ background(0);
+ size(1000, 800);
+ 
+}
+
+void draw() {
+
+  F =  8.99*pow(10,9)*pow(1.602*pow(10,-19), 2)/pow(xs0-xb0, 2); //force in between two molecules
+  
+  //initial for big one
+  fill(256,256,256);
+  ellipse(xb0, 400, 50, 50); //position
+  
+  x = x + dt*vb + F*pow(dt, 2)/(2*mb);
+  v = v + (
+  
+  
+  //initial for small one
+  fill(256, 256, 256);
+  ellipse(xs0, 400, 10, 10); //position
+  
+  float vb0 = 0.0;
+  
+  
+  
+
+
+}
