@@ -1,0 +1,133 @@
+float x[], y[];
+float vx[], vy[];
+float ax[], ay[];
+float v0;
+
+float m[];
+float dt = 0.05;
+
+float C = 1.0;
+float r;
+
+int i, j;
+
+float dx, dy;
+float R;
+
+float f;
+float xmap, ymap, Lx, Ly;
+float s[];
+
+void setup() {
+  background(256, 256, 256);
+  size(1000, 800);
+
+  m = new float[2];
+
+  x = new float[2];
+  y = new float[2];
+
+  vx = new float[2];
+  vy = new float[2];
+
+  s = new float[2];
+
+  ax = new float[2];
+  ay = new float[2];
+
+  m[0] = 1.00;
+  m[1] = 3.0*pow(10, -3);
+
+  //initial for big one
+  x[0] = 0.0;
+  y[0] = 0.0;
+
+  vx[0] = 0.0;
+  vy[0] = 0.0;
+
+  //initial for small one
+  x[1] = 1.0;
+  y[1] = 0.0;
+
+  //vx[1] = 0.0;
+  //vy[1] = 0.0;
+
+  ax[0] = 0.0;
+  ay[0] = 0.0;
+
+  ax[1] = 0.0;
+  ay[1] = 0.0;
+
+  Lx = x[1] + 10.0;
+  Ly = x[1] + 10.0;
+
+  s[0] = 20;
+  s[1] = 10;
+  
+  
+  R=sqrt(x[1]*x[1]+y[1]*y[1]);
+  v0=sqrt(C*m[0]/R);
+  vx[1] = -v0*y[1]/R;
+  vy[1] = v0*x[1]/R;
+
+}
+
+void draw() {
+  background(256, 256, 256);
+
+  //grid
+  for (int i = 0; i<width; i = i+20) {
+    for (int j = 0; j<height; j = j + 20) {
+
+      stroke(126);
+      line(i, 0, i, 800);
+
+      stroke(126);
+      line(0, j, 1000, j);
+    }
+  }
+
+
+  fill(0);
+  for (i=0; i<2; i++)
+  {
+    xmap=map(x[i], -Lx, Lx, 0, width);
+    ymap=map(y[i], -Ly, Ly, 0, height);
+    ellipse(xmap, ymap, s[i], s[i]);
+  } 
+
+  for (int i=0; i<2; i++) {
+    x[i] = x[i] + vx[i]*dt + ax[i]*pow(dt, 2)/2;
+    y[i] = y[i] + vy[i]*dt + ay[i]*pow(dt, 2)/2;
+    //}
+
+    //for (int i=0; i<2; i++) {
+    vx[i] = vx[i] + ax[i]*dt/2;
+    vy[i] = vy[i] + ay[i]*dt/2;
+  }
+
+  for (i=0; i<1; i++)
+    for (j=i+1; j<2; j++)
+    {
+
+      dx=x[j]-x[i];
+      dy=y[j]-y[i];
+      R=sqrt(dx*dx+dy*dy);
+      f=force(C, m[i], m[j], R);
+      ax[i] = f*dx/R/m[i];
+      ay[i] = f*dy/R/m[i];
+
+      ax[j] = -f*dx/R/m[j];
+      ay[j] = -f*dy/R/m[j];
+    } 
+
+
+  for (int i=0; i<2; i++) {
+    vx[i] = vx[i] + ax[i]*dt/2;
+    vy[i] = vy[i] + ay[i]*dt/2;
+  }
+}
+
+float force(float C, float m1, float m2, float r) {
+  return C*m1*m2/pow(r, 2);
+}
