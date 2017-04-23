@@ -1,0 +1,91 @@
+
+float x1[], y1[];
+float vx1[], vy1[];
+float ax1[], ay1[];
+float v01[];
+
+float x2[], y2[];
+float vx2[], vy2[];
+float ax2[], ay2[];
+float v02[];
+
+
+// number of particles
+int nv1 = 3; //# of particles in small box vertically
+int nh1 = 10; //# of particles in small box horizontally
+int nv2 = 15; //# of particles in big box vertically
+int nh2 = 30; //# of particles in big box horiyontally
+int N1;
+int N2;
+
+int i, j;
+int floor1 = floor(nh1/2);
+int floor2 = floor(nh2/2);
+
+// width, and height of ellipses
+float d1 = 10.0;
+float d2 = 10.0;
+
+
+
+void setup() {
+  background(256, 256, 256);
+  size(1000, 800);
+  N1 = nv1 * nh1;
+  N2 = nv2 * nh2;
+  
+  x1 = new float[nh1]; 
+  y1 = new float[nv1];
+  vx1 = new float[nh1];
+  vy1 = new float[nv1];
+  ax1 = new float[nh1];
+  ay1 = new float[nv1];
+  //v01 = new float[N1];
+  
+  x2 = new float[nh2]; 
+  y2 = new float[nv2];
+  vx2 = new float[nh2];
+  vy2 = new float[nv2];
+  ax2 = new float[nh2];
+  ay2 = new float[nv2];
+  v02 = new float[N2];
+  
+  
+  
+}
+
+void draw() {
+
+//-------------------- praticles of small box----------------------------
+  for (i = 0; i < nh1; i++) {
+    for (j = 0; j < nv1; j++) {
+      
+      x1[i] = width/2 - floor1*d1 + d1*i;
+      y1[i] = height/2 - d1*(j*1) - 90;
+      
+      noStroke();
+      fill(200, 0, 0);
+      ellipse(x1[i], y1[i], d1, d1);
+    }
+  }
+//----------------------------------------------------------------------------------- 
+
+
+
+//---------------------particles of big box--------------------------- 
+  for (i = 0; i < nh2; i++) {
+    for (j = 0; j < nv2; j++) {
+      
+      x2[i] = width/2 - floor2*d2 + d2*i;
+      y2[i] = height/2 + d2*(j*1);
+      
+      noStroke();
+      fill(0, 0, 200);
+      ellipse(width/2 - floor2*d2 + d2*i, height/2 + d2*(j*1), d2, d2);
+    }
+  }
+//-----------------------------------------------------------------------------------
+
+
+
+}
